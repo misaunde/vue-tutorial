@@ -10,23 +10,10 @@
 
       </form>
 
-      <!-- <ul>
-        <transition-group name="list" enter-active-class="animated bounceInUp" leave-active-class="animated bounceOutDown">
-          <li v-for="(data, index) in skills" :key='index'>
-            {{ data.skill }}
-            <i class="fa fa-minus-circle" v-on:click="remove(index)"></i>
-          </li>
-        </transition-group>
-      </ul> -->
-
       <ul>
         <draggable v-model="skills">
           <transition-group name="list" enter-active-class="animated bounceInUp">
-            <li v-for="(data, index) in skills" :key='index'>
-              <i class="fa fa-bars" style="float: left; margin-right: 20px;"></i>
-              {{ data.skill }}
-              <i class="fa fa-minus-circle" style="float: right" v-on:click="remove(index)"></i>
-            </li>
+            <skill-list-element v-for="(data, index) in skills" :key="index" :element="data" :index="index" :onRemove="remove"></skill-list-element>
           </transition-group>
         </draggable>
       </ul>
@@ -37,19 +24,21 @@
 </template>
 
 <script>
-import draggable from 'vuedraggable';
+import Draggable from 'vuedraggable';
+import SkillListElement from './Skill.vue';
 
 export default {
   components: {
-    draggable
+    Draggable,
+    SkillListElement
   },
   name: 'Skills',
   data() {
     return {
       skill: '',
       skills: [
-        { skill: "Angular"},
-        { skill: "React"} 
+        { skill: "Angular" },
+        { skill: "React" } 
       ],
     }
   },
@@ -67,6 +56,7 @@ export default {
       })
     },
     remove(id) {
+      console.log("id?: ", id)
       this.skills.splice(id, 1);
     }
   }
@@ -87,15 +77,6 @@ ul {
   margin: 0;
   padding: 0;
   list-style-type: none;
-}
-
-ul li {
-  padding: 20px;
-  font-size: 1.3em;
-  background-color: #E0EDF4;
-  border-left: 5px solid #3EB3F6;
-  margin-bottom: 2px;
-  color: #3E5252;
 }
 
 p {
@@ -123,12 +104,6 @@ input {
   padding: 5px;
   margin: 0px;
 }
-
-i {
-  
-  cursor: pointer;
-}
-
 
 
 /* .alert-in-enter-active {

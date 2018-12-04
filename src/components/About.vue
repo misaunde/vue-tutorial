@@ -11,6 +11,9 @@
 
 <script>
 export default {
+    props: {
+        skillCount: Number
+    },
     data() {
         return {
             user_name: this.$route.params.name
